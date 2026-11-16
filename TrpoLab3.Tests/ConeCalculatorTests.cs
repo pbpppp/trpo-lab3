@@ -49,5 +49,29 @@ namespace TrpoLab3.Tests
 
             Assert.AreEqual(expected, actual, 1e-9);
         }
+
+        [TestCase(-1)]
+        [TestCase(0)]
+        public void SurfaceArea_InvalidRadius_Throws(double radius)
+        {
+            var calculator = new ConeCalculator();
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(
+                () => calculator.SurfaceArea(radius, 2));
+
+            Assert.AreEqual("radius", exception.ParamName);
+        }
+
+        [TestCase(-1)]
+        [TestCase(0)]
+        public void SurfaceArea_InvalidHeight_Throws(double height)
+        {
+            var calculator = new ConeCalculator();
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(
+                () => calculator.SurfaceArea(2, height));
+
+            Assert.AreEqual("height", exception.ParamName);
+        }
     }
 }
