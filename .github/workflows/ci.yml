@@ -25,16 +25,16 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore
-        run: dotnet restore TrpoLab3.sln
+        run: dotnet restore TrpoLab3.Tests/TrpoLab3.Tests.csproj
 
       - name: Build
-        run: dotnet build TrpoLab3.sln --configuration Release --no-restore
+        run: dotnet build TrpoLab3.Tests/TrpoLab3.Tests.csproj --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test TrpoLab3.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test TrpoLab3.Tests/TrpoLab3.Tests.csproj --configuration Release --no-build --verbosity normal
 
-  publish:
-    name: Publish win-x64
+  build-wpf:
+    name: Build WPF
     needs: test
     runs-on: windows-latest
     steps:
@@ -46,13 +46,32 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Restore
+        run: dotnet restore TrpoLab4.WpfApp/TrpoLab4.WpfApp.csproj
+
+      - name: Build
+        run: dotnet build TrpoLab4.WpfApp/TrpoLab4.WpfApp.csproj --configuration Release --no-restore
+
+  publish:
+    name: Publish win-x64
+    needs: [ test, build-wpf ]
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
       - name: Publish
-        run: dotnet publish TrpoLab3.ConsoleApp/TrpoLab3.ConsoleApp.csproj --configuration Release --runtime win-x64 --self-contained true --output publish/win-x64
+        run: dotnet publish TrpoLab4.WpfApp/TrpoLab4.WpfApp.csproj --configuration Release --runtime win-x64 --self-contained true --output publish/win-x64
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: trpo-lab3-win-x64
+          name: trpo-lab4-win-x64
           path: publish/win-x64
 
   release:
@@ -71,16 +90,16 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: trpo-lab3-win-x64
+          name: trpo-lab4-win-x64
           path: release/win-x64
 
       - name: Pack
         run: |
           cd release/win-x64
-          zip -r ../trpo-lab3-win-x64.zip .
+          zip -r ../trpo-lab4-win-x64.zip .
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: release/trpo-lab3-win-x64.zip
+          files: release/trpo-lab4-win-x64.zip
           generate_release_notes: true
