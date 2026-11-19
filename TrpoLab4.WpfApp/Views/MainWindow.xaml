@@ -1,13 +1,141 @@
 <Window x:Class="TrpoLab4.WpfApp.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Лабораторная работа № 4"
-        Width="900" Height="600"
-        WindowStartupLocation="CenterScreen">
-    <Grid>
-        <TextBlock Text="Лабораторная работа № 4"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="24" />
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:TrpoLab4.WpfApp.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:ConeViewModel}"
+        Title="Лабораторная работа № 4 — Круглый конус"
+        Width="1120" Height="740"
+        MinWidth="980" MinHeight="650"
+        WindowStartupLocation="CenterScreen"
+        Background="#F2F5FA"
+        FontFamily="Segoe UI"
+        FontSize="15"
+        TextOptions.TextFormattingMode="Display"
+        UseLayoutRounding="True">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="12,9" />
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#C9D1DE" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="BorderBrush" Value="#D32F2F" />
+                    <Setter Property="BorderThickness" Value="2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#445066" />
+            <Setter Property="Margin" Value="2,0,0,6" />
+        </Style>
+
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="Padding" Value="26" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="22" ShadowDepth="3" Opacity="0.13" Color="#1B2A41" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.02*" />
+            <ColumnDefinition Width="1.18*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Style="{StaticResource CardStyle}" Margin="0,0,11,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel>
+                    <TextBlock Text="Площадь поверхности круглого конуса"
+                               FontSize="27" FontWeight="Bold" Foreground="#16233A"
+                               TextWrapping="Wrap" LineHeight="34" />
+                    <TextBlock Text="Вариант 14 · расчёт выполняется сразу при изменении данных"
+                               FontSize="13" Foreground="#6B7688" Margin="0,8,0,24" TextWrapping="Wrap" />
+
+                    <TextBlock Text="Радиус основания r" Style="{StaticResource LabelStyle}" />
+                    <TextBox x:Name="RadiusBox"
+                             Text="{Binding RadiusText, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}" />
+                    <TextBlock Text="{Binding RadiusError}"
+                               Visibility="{Binding HasRadiusError, Converter={StaticResource BoolToVisibility}}"
+                               Foreground="#D32F2F" FontSize="13" Margin="2,5,0,0" TextWrapping="Wrap" />
+
+                    <TextBlock Text="Высота конуса h" Style="{StaticResource LabelStyle}" Margin="2,18,0,6" />
+                    <TextBox x:Name="HeightBox"
+                             Text="{Binding HeightText, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}" />
+                    <TextBlock Text="{Binding HeightError}"
+                               Visibility="{Binding HasHeightError, Converter={StaticResource BoolToVisibility}}"
+                               Foreground="#D32F2F" FontSize="13" Margin="2,5,0,0" TextWrapping="Wrap" />
+
+                    <Border Background="#F4F8FE" BorderBrush="#D8E6F7" BorderThickness="1"
+                            CornerRadius="12" Padding="20" Margin="0,26,0,0">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Образующая l" FontSize="15" Foreground="#53617A" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{Binding SlantHeightText}" FontSize="24"
+                                           FontWeight="SemiBold" Foreground="#245B91" />
+                            </Grid>
+                            <Border Height="1" Background="#D8E6F7" Margin="0,16" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Площадь поверхности S" FontSize="15" Foreground="#53617A" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{Binding SurfaceAreaText}" FontSize="31"
+                                           FontWeight="Bold" Foreground="#153E68" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="Кнопка «Рассчитать» не используется: результат обновляется в процессе ввода."
+                               FontSize="13" Foreground="#7A8494" TextWrapping="Wrap" Margin="2,18,0,0" />
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="11,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Геометрия и формула" FontSize="20" FontWeight="SemiBold"
+                           Foreground="#16233A" Margin="0,0,0,18" />
+
+                <Image Grid.Row="1" Source="pack://application:,,,/Assets/cone.png"
+                       Stretch="Uniform" MaxHeight="360"
+                       RenderOptions.BitmapScalingMode="HighQuality" />
+
+                <Border Grid.Row="2" Background="#F8FAFD" BorderBrush="#E1E8F2" BorderThickness="1"
+                        CornerRadius="12" Padding="16" Margin="0,18,0,0">
+                    <Image Source="pack://application:,,,/Assets/formula.png"
+                           Stretch="Uniform" MaxHeight="150"
+                           RenderOptions.BitmapScalingMode="HighQuality" />
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

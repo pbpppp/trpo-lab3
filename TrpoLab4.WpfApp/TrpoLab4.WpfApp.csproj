@@ -14,4 +14,9 @@
     <ProjectReference Include="..\TrpoLab3.Lib\TrpoLab3.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="Assets\cone.png" />
+    <Resource Include="Assets\formula.png" />
+  </ItemGroup>
+
 </Project>
