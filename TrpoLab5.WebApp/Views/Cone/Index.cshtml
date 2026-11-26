@@ -1,0 +1,69 @@
+@model TrpoLab5.WebApp.Models.ConeViewModel
+@{
+    ViewData["Title"] = "Площадь поверхности конуса";
+}
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card app-card h-100">
+            <div class="card-body p-4 p-lg-5">
+                <h1 class="h3 fw-bold mb-2">Площадь поверхности круглого конуса</h1>
+                <p class="text-muted mb-4">Вариант 14. Расчёт выполняется на сервере.</p>
+
+                <form asp-controller="Cone" asp-action="Index" method="post" novalidate>
+                    <div class="mb-3">
+                        <label asp-for="RadiusText" class="form-label fw-semibold"></label>
+                        <input asp-for="RadiusText" class="form-control" inputmode="decimal" autocomplete="off" />
+                        <span asp-validation-for="RadiusText" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="HeightText" class="form-label fw-semibold"></label>
+                        <input asp-for="HeightText" class="form-control" inputmode="decimal" autocomplete="off" />
+                        <span asp-validation-for="HeightText" class="text-danger small"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary px-4">Рассчитать</button>
+                </form>
+
+                <div class="result-box mt-4">
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <span class="text-muted">Образующая l</span>
+                        <span class="result-value">@Model.SlantHeightText</span>
+                    </div>
+                    <hr class="my-1" />
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <span class="text-muted">Площадь поверхности S</span>
+                        <span class="result-value result-value-main">@Model.SurfaceAreaText</span>
+                    </div>
+                </div>
+
+                <p class="text-muted small mt-4 mb-0">
+                    Радиус и высота должны быть положительными числами не больше 1 000 000.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card app-card h-100">
+            <div class="card-body p-4 p-lg-5">
+                <h2 class="h5 fw-semibold mb-4">Геометрия и формула</h2>
+                <div class="text-center">
+                    <img src="~/images/cone.png"
+                         alt="Круглый конус с обозначениями r, h и l"
+                         class="cone-image img-fluid" />
+                </div>
+                <div class="formula-box mt-4 text-center">
+                    <img src="~/images/formula.png"
+                         alt="Формулы площади поверхности и образующей конуса"
+                         class="formula-image img-fluid" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
