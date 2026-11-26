@@ -1,0 +1,49 @@
+html {
+    font-size: 16px;
+}
+
+body {
+    background: #f2f5f9;
+    color: #1f2937;
+}
+
+.app-card {
+    border: 0;
+    border-radius: 1.25rem;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.result-box {
+    background: #eef4fb;
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+}
+
+.result-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1d4ed8;
+}
+
+.result-value-main {
+    font-size: 2rem;
+}
+
+.cone-image {
+    max-height: 340px;
+}
+
+.formula-box {
+    background: #f8fafc;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.formula-image {
+    max-height: 150px;
+}
+
+.form-control:focus {
+    border-color: #1d4ed8;
+    box-shadow: 0 0 0 0.2rem rgba(29, 78, 216, 0.15);
+}
